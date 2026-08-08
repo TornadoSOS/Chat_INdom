@@ -3,135 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Семейные Комнаты</title>
-    <!-- Бесплатное облако сообщений -->
-    <script src="https://pubnub.com"></script>
+    <title>Чат дома</title>
     <style>
         :root {
-            --bg-color: #f0f2f5;
-            --box-bg: white;
+            --bg-color: #ffffff;
             --text-color: #333333;
-            --border-color: #cccccc;
-            --input-bg: white;
+            --chat-bg: #f5f5f5;
+            --msg-bg: #e0f7fa;
+            --btn-bg: #007bff;
+            --btn-text: #ffffff;
+            --input-border: #ccc;
         }
 
         [data-theme="dark"] {
-            --bg-color: #18191a;
-            --box-bg: #242526;
-            --text-color: #e4e6eb;
-            --border-color: #3e4042;
-            --input-bg: #3a3b3c;
+            --bg-color: #181818;
+            --text-color: #f0f0f0;
+            --chat-bg: #242424;
+            --msg-bg: #203a43;
+            --btn-bg: #1e7e34;
+            --btn-text: #ffffff;
+            --input-border: #444;
         }
 
-        body { font-family: Arial, sans-serif; background: var(--bg-color); display: flex; flex-direction: column; align-items: center; padding: 20px; margin: 0; transition: background 0.3s; }
-        .chat-container { background: var(--box-bg); padding: 20px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 100%; max-width: 350px; transition: background 0.3s; }
-        h2 { text-align: center; color: var(--text-color); margin-top: 0; }
-        #welcome-user { text-align: center; color: var(--text-color); font-size: 14px; margin-bottom: 10px; }
-        #messages { border: 1px solid var(--border-color); height: 300px; overflow-y: auto; padding: 10px; margin-bottom: 10px; background: var(--input-bg); color: var(--text-color); border-radius: 5px; }
-        input, button { width: 100%; padding: 12px; margin-top: 8px; border-radius: 5px; border: 1px solid var(--border-color); box-sizing: border-box; font-size: 16px; background: var(--input-bg); color: var(--text-color); }
-        button { background: #007bff; color: white; border: none; cursor: pointer; font-weight: bold; }
-        button:hover { background: #0056b3; }
-        .msg-box { margin-bottom: 8px; word-wrap: break-word; color: var(--text-color); }
-        
-        .theme-btn {
-            background: #6c757d;
-            color: white;
-            padding: 8px;
-            font-size: 14px;
-            margin-bottom: 15px;
-            width: auto;
+        body {
+            font-family: Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        header {
+            width: 100%;
+            max-width: 500px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .theme-toggle {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
             border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        h2 { margin: 0; font-size: 1.3rem; }
+
+        .chat-box {
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            background-color: var(--chat-bg);
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            border: 1px solid var(--input-border);
+        }
+
+        .message {
+            max-width: 80%;
+            padding: 10px 14px;
+            border-radius: 12px;
+            line-height: 1.4;
+            align-self: flex-start;
+            background-color: var(--msg-bg);
+        }
+
+        .author {
+            font-size: 0.75rem;
+            font-weight: bold;
+            opacity: 0.7;
+            margin-bottom: 3px;
+        }
+
+        .controls {
+            width: 100%;
+            max-width: 500px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--input-border);
+            border-radius: 6px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            box-sizing: border-box;
+            outline: none;
+        }
+
+        .send-btn {
+            width: 100%;
+            background-color: var(--btn-bg);
+            color: var(--btn-text);
+            border: none;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <button class="theme-btn" onclick="toggleTheme()">🌙 Сменить тему (День/Ночь)</button>
+    <header>
+        <h2 id="roomTitle">Комната: Кухня</h2>
+        <button class="theme-toggle" id="themeBtn">🌙 Сменить тему</button>
+    </header>
 
-    <div class="chat-container">
-        <h2 id="room-title">Вход в Чат</h2>
-        <div id="welcome-user"></div>
-        
-        <!-- Форма входа (теперь только выбор комнаты) -->
-        <div id="login-form">
-            <input type="text" id="room" placeholder="Название комнаты (например, Кухня)">
-            <button onclick="initChat()">Войти в комнату</button>
-        </div>
-        
-        <!-- Окно самого чата -->
-        <div id="chat-box" style="display:none;">
-            <div id="messages"></div>
-            <input type="text" id="message-text" placeholder="Напишите сообщение...">
-            <button onclick="sendMessage()">Отправить</button>
+    <!-- Окно сообщений -->
+    <div class="chat-box" id="chatBox">
+        <div class="message">
+            <div class="author">Система</div>
+            Добро пожаловать в домашний чат!
         </div>
     </div>
 
+    <!-- Поля ввода -->
+    <div class="controls">
+        <input type="text" id="nameInput" class="input-field" placeholder="Ваше имя (например, Мама)...">
+        <input type="text" id="msgInput" class="input-field" placeholder="Введите текст сообщения...">
+        <button id="sendBtn" class="send-btn">Отправить</button>
+    </div>
+
     <script>
-        let pubnub;
-        let currentRoom = "";
-        let myName = "";
-
-        // Сайт сразу спрашивает имя при загрузке страницы
-        window.onload = function() {
-            while (!myName) {
-                myName = prompt("Как тебя зовут? (Мама / Папа / Твое имя)");
-                if (myName) myName = myName.trim();
-            }
-            document.getElementById('welcome-user').innerText = "Привет, " + myName + "! Куда зайдем?";
-        };
-
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                document.documentElement.setAttribute('data-theme', 'light');
+        // Переключение темы
+        const themeBtn = document.getElementById('themeBtn');
+        const html = document.documentElement;
+        themeBtn.addEventListener('click', () => {
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.removeAttribute('data-theme');
+                themeBtn.textContent = '🌙 Сменить тему';
             } else {
-                document.documentElement.setAttribute('data-theme', 'dark');
+                html.setAttribute('data-theme', 'dark');
+                themeBtn.textContent = '☀️ Сменить тему';
             }
-        }
+        });
 
-        function initChat() {
-            currentRoom = document.getElementById('room').value.trim().toLowerCase();
-            
-            if (!currentRoom) {
-                alert("Введите название комнаты!");
+        // Логика отправки сообщений
+        const chatBox = document.getElementById('chatBox');
+        const nameInput = document.getElementById('nameInput');
+        const msgInput = document.getElementById('msgInput');
+        const sendBtn = document.getElementById('sendBtn');
+
+        function sendMessage() {
+            const name = nameInput.value.trim();
+            const text = msgInput.value.trim();
+
+            // Проверяем, что поля не пустые
+            if (!name || !text) {
+                alert('Пожалуйста, введите имя и текст сообщения!');
                 return;
             }
 
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('welcome-user').style.display = 'none';
-            document.getElementById('chat-box').style.display = 'block';
-            document.getElementById('room-title').innerText = "Комната: " + currentRoom;
+            // Создаем новый блок сообщения
+            const msgDiv = document.createElement('div');
+            msgDiv.className = 'message';
 
-            pubnub = new PubNub({
-                publishKey: 'pub-c-4613b53c-c692-4d0f-8c3b-554471018861',
-                subscribeKey: 'sub-c-4e5cb42e-1311-4776-9c42-5bf06fc005f0',
-                userId: myName
-            });
+            // Создаем блок автора
+            const authorDiv = document.createElement('div');
+            authorDiv.className = 'author';
+            authorDiv.textContent = name;
 
-            pubnub.addListener({
-                message: function(event) {
-                    const msgHtml = `<div class="msg-box"><b>${event.message.sender}:</b> ${event.message.text}</div>`;
-                    const msgDiv = document.getElementById('messages');
-                    msgDiv.innerHTML += msgHtml;
-                    msgDiv.scrollTop = msgDiv.scrollHeight;
-                }
-            });
+            // Создаем текст реплики
+            const textNode = document.createTextNode(text);
 
-            pubnub.subscribe({ channels: [currentRoom] });
+            // Собираем сообщение вместе
+            msgDiv.appendChild(authorDiv);
+            msgDiv.appendChild(textNode);
+
+            // Добавляем в окно чата
+            chatBox.appendChild(msgDiv);
+
+            // Очищаем поле ввода текста (имя оставляем)
+            msgInput.value = '';
+
+            // Скроллим чат вниз к новому сообщению
+            chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function sendMessage() {
-            const input = document.getElementById('message-text');
-            const text = input.value.trim();
-            
-            if (text && pubnub) {
-                pubnub.publish({
-                    channel: currentRoom,
-                    message: { sender: myName, text: text }
-                });
-                input.value = '';
+        // Отправка по клику на кнопку
+        sendBtn.addEventListener('click', sendMessage);
+
+        // Отправка по нажатию Enter в поле ввода
+        msgInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                sendMessage();
             }
-        }
+        });
     </script>
+
 </body>
 </html>
