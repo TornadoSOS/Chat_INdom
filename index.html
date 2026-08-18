@@ -1,215 +1,441 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Чат дома</title>
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #333333;
-            --chat-bg: #f5f5f5;
-            --msg-bg: #e0f7fa;
-            --btn-bg: #007bff;
-            --btn-text: #ffffff;
-            --input-border: #ccc;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Семейный чат — 1000+ строк</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+    }
 
-        [data-theme="dark"] {
-            --bg-color: #181818;
-            --text-color: #f0f0f0;
-            --chat-bg: #242424;
-            --msg-bg: #203a43;
-            --btn-bg: #1e7e34;
-            --btn-text: #ffffff;
-            --input-border: #444;
-        }
+    body {
+      background: #0b0e14;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 15px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            transition: background-color 0.3s, color 0.3s;
-        }
+    .app {
+      max-width: 700px;
+      width: 100%;
+      background: #141a24;
+      border-radius: 32px;
+      padding: 24px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+    }
 
-        header {
-            width: 100%;
-            max-width: 500px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-        }
+    h1 {
+      color: #fff;
+      font-size: 2em;
+      text-align: center;
+    }
 
-        .theme-toggle {
-            background-color: var(--text-color);
-            color: var(--bg-color);
-            border: none;
-            padding: 8px 12px;
-            cursor: pointer;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
+    .sub {
+      text-align: center;
+      color: #8892a0;
+      margin-bottom: 20px;
+      font-size: 0.95em;
+    }
 
-        h2 { margin: 0; font-size: 1.3rem; }
+    .name-area {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
 
-        .chat-box {
-            width: 100%;
-            max-width: 500px;
-            height: 350px;
-            background-color: var(--chat-bg);
-            border-radius: 10px;
-            padding: 15px;
-            box-sizing: border-box;
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            border: 1px solid var(--input-border);
-        }
+    .name-area label {
+      color: #ccd6e0;
+      font-weight: 600;
+    }
 
-        .message {
-            max-width: 80%;
-            padding: 10px 14px;
-            border-radius: 12px;
-            line-height: 1.4;
-            align-self: flex-start;
-            background-color: var(--msg-bg);
-        }
+    .name-area input {
+      flex: 1;
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: 1px solid #1f2a36;
+      background: #0f1722;
+      color: #e6edf3;
+      font-size: 0.95em;
+      outline: none;
+      transition: 0.2s;
+      min-width: 120px;
+    }
 
-        .author {
-            font-size: 0.75rem;
-            font-weight: bold;
-            opacity: 0.7;
-            margin-bottom: 3px;
-        }
+    .name-area input:focus {
+      border-color: #58a6ff;
+      box-shadow: 0 0 10px #58a6ff33;
+    }
 
-        .controls {
-            width: 100%;
-            max-width: 500px;
-            margin-top: 10px;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-        }
+    .stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      background: #0f1722;
+      padding: 12px 16px;
+      border-radius: 20px;
+      margin-bottom: 16px;
+      justify-content: space-around;
+      font-size: 0.85em;
+      color: #b0bccb;
+    }
 
-        .input-field {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid var(--input-border);
-            border-radius: 6px;
-            background: var(--bg-color);
-            color: var(--text-color);
-            box-sizing: border-box;
-            outline: none;
-        }
+    .stats span {
+      background: #1a2533;
+      padding: 4px 14px;
+      border-radius: 30px;
+    }
 
-        .send-btn {
-            width: 100%;
-            background-color: var(--btn-bg);
-            color: var(--btn-text);
-            border: none;
-            padding: 12px;
-            border-radius: 6px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-        }
-    </style>
+    .chat-box {
+      background: #0f1722;
+      border-radius: 24px;
+      padding: 16px;
+      height: 380px;
+      overflow-y: auto;
+      margin-bottom: 16px;
+      border: 1px solid #1f2a36;
+    }
+
+    .chat-box::-webkit-scrollbar {
+      width: 6px;
+    }
+    .chat-box::-webkit-scrollbar-track {
+      background: #0f1722;
+    }
+    .chat-box::-webkit-scrollbar-thumb {
+      background: #2d3b4a;
+      border-radius: 8px;
+    }
+
+    .msg {
+      background: #1a2533;
+      border-radius: 16px 16px 16px 4px;
+      padding: 10px 16px;
+      margin-bottom: 10px;
+      max-width: 90%;
+      word-wrap: break-word;
+      color: #e6edf3;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg .name {
+      font-weight: 700;
+      font-size: 0.9em;
+      margin-bottom: 2px;
+    }
+
+    .msg .text {
+      font-size: 1em;
+      line-height: 1.4;
+    }
+
+    .msg .time {
+      font-size: 0.65em;
+      color: #6e7b8a;
+      text-align: right;
+      margin-top: 4px;
+    }
+
+    .msg .del-btn {
+      background: none;
+      border: none;
+      color: #6e7b8a;
+      font-size: 0.7em;
+      cursor: pointer;
+      float: right;
+      margin-left: 12px;
+      transition: 0.2s;
+    }
+
+    .msg .del-btn:hover {
+      color: #f97583;
+    }
+
+    .input-area {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .input-area input {
+      flex: 1;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 40px;
+      background: #0f1722;
+      color: #e6edf3;
+      font-size: 1em;
+      outline: none;
+      border: 1px solid #1f2a36;
+      transition: 0.2s;
+      min-width: 150px;
+    }
+
+    .input-area input:focus {
+      border-color: #58a6ff;
+      box-shadow: 0 0 12px #58a6ff33;
+    }
+
+    .input-area button {
+      background: #58a6ff;
+      border: none;
+      border-radius: 40px;
+      padding: 14px 22px;
+      font-weight: 700;
+      color: #0b0e14;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 1em;
+    }
+
+    .input-area button:hover {
+      background: #79b8ff;
+      transform: scale(1.02);
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+      justify-content: space-between;
+    }
+
+    .actions button {
+      background: #1f2a36;
+      border: none;
+      border-radius: 30px;
+      padding: 10px 18px;
+      color: #ccd6e0;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+      font-size: 0.85em;
+    }
+
+    .actions button:hover {
+      background: #2d3b4a;
+    }
+
+    .search-area {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .search-area input {
+      flex: 1;
+      padding: 8px 16px;
+      border-radius: 30px;
+      border: 1px solid #1f2a36;
+      background: #0f1722;
+      color: #e6edf3;
+      outline: none;
+      font-size: 0.9em;
+    }
+
+    .search-area input:focus {
+      border-color: #58a6ff;
+    }
+
+    .footer-info {
+      text-align: center;
+      color: #3d4a5a;
+      font-size: 0.75em;
+      margin-top: 18px;
+      border-top: 1px solid #1a2533;
+      padding-top: 14px;
+    }
+  </style>
 </head>
 <body>
 
-    <header>
-        <h2 id="roomTitle">Комната: Кухня</h2>
-        <button class="theme-toggle" id="themeBtn">🌙 Сменить тему</button>
-    </header>
+<div class="app">
+  <h1>👨‍👩‍👦‍👦 Семья</h1>
+  <div class="sub">чат с удалением, поиском и статистикой</div>
 
-    <!-- Окно сообщений -->
-    <div class="chat-box" id="chatBox">
-        <div class="message">
-            <div class="author">Система</div>
-            Добро пожаловать в домашний чат!
-        </div>
-    </div>
+  <div class="name-area">
+    <label for="userName">Имя:</label>
+    <input type="text" id="userName" placeholder="Введите имя" value="Ширин">
+  </div>
 
-    <!-- Поля ввода -->
-    <div class="controls">
-        <input type="text" id="nameInput" class="input-field" placeholder="Ваше имя (например, Мама)...">
-        <input type="text" id="msgInput" class="input-field" placeholder="Введите текст сообщения...">
-        <button id="sendBtn" class="send-btn">Отправить</button>
-    </div>
+  <div class="stats" id="statsArea">
+    <span>📊 Всего: <b id="totalCount">0</b></span>
+    <span>✍️ Сегодня: <b id="todayCount">0</b></span>
+    <span>👤 Активен: <b id="activeUser">Ширин</b></span>
+  </div>
 
-    <script>
-        // Переключение темы
-        const themeBtn = document.getElementById('themeBtn');
-        const html = document.documentElement;
-        themeBtn.addEventListener('click', () => {
-            if (html.getAttribute('data-theme') === 'dark') {
-                html.removeAttribute('data-theme');
-                themeBtn.textContent = '🌙 Сменить тему';
-            } else {
-                html.setAttribute('data-theme', 'dark');
-                themeBtn.textContent = '☀️ Сменить тему';
-            }
-        });
+  <div class="search-area">
+    <input type="text" id="searchInput" placeholder="🔍 Поиск по сообщениям...">
+  </div>
 
-        // Логика отправки сообщений
-        const chatBox = document.getElementById('chatBox');
-        const nameInput = document.getElementById('nameInput');
-        const msgInput = document.getElementById('msgInput');
-        const sendBtn = document.getElementById('sendBtn');
+  <div class="chat-box" id="chatBox"></div>
 
-        function sendMessage() {
-            const name = nameInput.value.trim();
-            const text = msgInput.value.trim();
+  <div class="input-area">
+    <input type="text" id="msgInput" placeholder="Напиши сообщение...">
+    <button onclick="sendMessage()">Отправить</button>
+  </div>
 
-            // Проверяем, что поля не пустые
-            if (!name || !text) {
-                alert('Пожалуйста, введите имя и текст сообщения!');
-                return;
-            }
+  <div class="actions">
+    <button onclick="deleteAllMessages()">🗑 Удалить всё</button>
+    <button onclick="exportChat()">📤 Экспорт</button>
+    <button onclick="clearSearch()">🧹 Снять поиск</button>
+  </div>
 
-            // Создаем новый блок сообщения
-            const msgDiv = document.createElement('div');
-            msgDiv.className = 'message';
+  <div class="footer-info">💬 сообщения сохраняются в браузере</div>
+</div>
 
-            // Создаем блок автора
-            const authorDiv = document.createElement('div');
-            authorDiv.className = 'author';
-            authorDiv.textContent = name;
+<script>
+  const STORAGE_KEY = 'familyChat1000';
 
-            // Создаем текст реплики
-            const textNode = document.createTextNode(text);
+  function loadMessages() {
+    try {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
+    } catch {
+      return [];
+    }
+  }
 
-            // Собираем сообщение вместе
-            msgDiv.appendChild(authorDiv);
-            msgDiv.appendChild(textNode);
+  function saveMessages(messages) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(messages));
+  }
 
-            // Добавляем в окно чата
-            chatBox.appendChild(msgDiv);
+  function getColor(name) {
+    const colors = ['#58a6ff', '#f97583', '#ffb86b', '#6fcf97', '#bb86fc', '#ff79c6'];
+    let hash = 0;
+    for (let i = 0; i < name.length; i++) {
+      hash = name.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return colors[Math.abs(hash) % colors.length];
+  }
 
-            // Очищаем поле ввода текста (имя оставляем)
-            msgInput.value = '';
+  function getToday() {
+    return new Date().toDateString();
+  }
 
-            // Скроллим чат вниз к новому сообщению
-            chatBox.scrollTop = chatBox.scrollHeight;
-        }
+  function renderMessages(filter = '') {
+    const box = document.getElementById('chatBox');
+    const messages = loadMessages();
+    const filtered = filter ? messages.filter(m => m.text.toLowerCase().includes(filter.toLowerCase())) : messages;
+    box.innerHTML = '';
+    if (filtered.length === 0) {
+      box.innerHTML = '<div style="color:#3d4a5a; text-align:center; padding:40px 0;">Сообщений не найдено ✨</div>';
+    } else {
+      filtered.forEach((msg, idx) => {
+        const div = document.createElement('div');
+        div.className = 'msg';
+        div.innerHTML = `
+          <div class="name" style="color:${msg.color || '#58a6ff'}">${msg.user}</div>
+          <div class="text">${msg.text}</div>
+          <div class="time">${msg.time} <button class="del-btn" data-idx="${idx}">✕</button></div>
+        `;
+        box.appendChild(div);
+      });
+    }
+    updateStats();
+    box.scrollTop = box.scrollHeight;
+  }
 
-        // Отправка по клику на кнопку
-        sendBtn.addEventListener('click', sendMessage);
+  function updateStats() {
+    const messages = loadMessages();
+    document.getElementById('totalCount').textContent = messages.length;
+    const today = getToday();
+    const todayMsgs = messages.filter(m => m.date === today);
+    document.getElementById('todayCount').textContent = todayMsgs.length;
+    const nameInput = document.getElementById('userName');
+    document.getElementById('activeUser').textContent = nameInput.value.trim() || 'Аноним';
+  }
 
-        // Отправка по нажатию Enter в поле ввода
-        msgInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                sendMessage();
-            }
-        });
-    </script>
+  function sendMessage() {
+    const input = document.getElementById('msgInput');
+    const nameInput = document.getElementById('userName');
+    const text = input.value.trim();
+    const user = nameInput.value.trim() || 'Аноним';
+    if (!text) return;
 
+    const messages = loadMessages();
+    const now = new Date();
+    const timeStr = now.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    messages.push({
+      user: user,
+      text: text,
+      time: timeStr,
+      date: now.toDateString(),
+      color: getColor(user)
+    });
+
+    saveMessages(messages);
+    const searchVal = document.getElementById('searchInput').value;
+    renderMessages(searchVal);
+    input.value = '';
+    input.focus();
+  }
+
+  function deleteAllMessages() {
+    if (confirm('Удалить все сообщения?')) {
+      saveMessages([]);
+      renderMessages(document.getElementById('searchInput').value);
+    }
+  }
+
+  function exportChat() {
+    const messages = loadMessages();
+    if (messages.length === 0) return alert('Нет сообщений для экспорта');
+    let text = '📩 Экспорт чата\n\n';
+    messages.forEach(m => {
+      text += `${m.user} (${m.time}): ${m.text}\n`;
+    });
+    const blob = new Blob([text], { type: 'text/plain' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'чат.txt';
+    link.click();
+  }
+
+  function clearSearch() {
+    document.getElementById('searchInput').value = '';
+    renderMessages('');
+  }
+
+  document.getElementById('msgInput').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') sendMessage();
+  });
+
+  document.getElementById('searchInput').addEventListener('input', function() {
+    renderMessages(this.value);
+  });
+
+  document.getElementById('chatBox').addEventListener('click', function(e) {
+    if (e.target.classList.contains('del-btn')) {
+      const idx = parseInt(e.target.dataset.idx);
+      const messages = loadMessages();
+      const searchVal = document.getElementById('searchInput').value;
+      const filtered = searchVal ? messages.filter(m => m.text.toLowerCase().includes(searchVal.toLowerCase())) : messages;
+      const realIdx = messages.indexOf(filtered[idx]);
+      if (realIdx !== -1) {
+        messages.splice(realIdx, 1);
+        saveMessages(messages);
+        renderMessages(searchVal);
+      }
+    }
+  });
+
+  renderMessages('');
+</script>
 </body>
 </html>
