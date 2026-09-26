@@ -3,69 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Расписание | Хайыракан 7 класс</title>
-    <!-- Сюда мы позже подключим файл со стилями CSS -->
+    <title>Расписание | 7 "Б" Класс</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header class="main-header">
-        <div class="container">
-            <span class="school-badge">7 КЛАСС</span>
-            <h1>Хайыракан</h1>
-            <p class="subtitle">Умное и быстрое расписание уроков</p>
+        <div class="container animate-drop">
+            <span class="school-badge">ХАЙЫРАКАН</span>
+            <h1>7 "Б" Класс</h1>
+            <p class="subtitle">Интерактивное расписание уроков</p>
+            
+            <!-- Кнопки переключения дней (управляются через JS) -->
+            <div class="day-selector">
+                <button class="day-btn active" onclick="loadDay('monday')">Пон</button>
+                <button class="day-btn" onclick="loadDay('tuesday')">Втор</button>
+                <button class="day-btn" onclick="loadDay('wednesday')">Среда</button>
+            </div>
         </div>
     </header>
 
     <main class="container">
-        <!-- Сетка с днями недели -->
-        <div class="schedule-grid">
-
-            <!-- ПОНЕДЕЛЬНИК -->
-            <section class="day-card">
-                <h2 class="day-title">Понедельник</h2>
-                <ul class="lesson-list">
-                    <li><span class="lesson-num">1</span> <span class="lesson-name">Физика</span></li>
-                    <li><span class="lesson-num">2</span> <span class="lesson-name">Алгебра</span></li>
-                    <li><span class="lesson-num">3</span> <span class="lesson-name">Русский язык</span></li>
-                    <li><span class="lesson-num">4</span> <span class="lesson-name">История</span></li>
-                    <li><span class="lesson-num">5</span> <span class="lesson-name">Физкультура</span></li>
-                </ul>
-            </section>
-
-            <!-- ВТОРНИК -->
-            <section class="day-card">
-                <h2 class="day-title">Вторник</h2>
-                <ul class="lesson-list">
-                    <li><span class="lesson-num">1</span> <span class="lesson-name">Геометрия</span></li>
-                    <li><span class="lesson-num">2</span> <span class="lesson-name">Литература</span></li>
-                    <li><span class="lesson-num">3</span> <span class="lesson-name">Английский язык</span></li>
-                    <li><span class="lesson-num">4</span> <span class="lesson-name">Информатика</span></li>
-                    <li><span class="lesson-num">5</span> <span class="lesson-name">Биология</span></li>
-                </ul>
-            </section>
-
-            <!-- СРЕДА -->
-            <section class="day-card">
-                <h2 class="day-title">Среда</h2>
-                <ul class="lesson-list">
-                    <li><span class="lesson-num">1</span> <span class="lesson-name">Физика</span></li>
-                    <li><span class="lesson-num">2</span> <span class="lesson-name">Алгебра</span></li>
-                    <li><span class="lesson-num">3</span> <span class="lesson-name">Химия</span></li>
-                    <li><span class="lesson-num">4</span> <span class="lesson-name">География</span></li>
-                    <li><span class="lesson-num">5</span> <span class="lesson-name">Обществознание</span></li>
-                </ul>
-            </section>
-
-        </div>
+        <!-- Сюда JavaScript будет динамически вставлять карточки с анимацией -->
+        <div id="schedule-container" class="schedule-wrapper"></div>
     </main>
 
-    <footer class="main-footer">
+    <footer class="main-footer animate-fade">
         <div class="container">
-            <p>Сервер работает на сверхбыстром движке <strong>C++</strong></p>
-            <p class="performance-tag">Время ответа сервера: <span id="ping">~1.2 ms</span></p>
+            <p>Движок сайта: <span class="tech-stack">Node.js + Express</span></p>
+            <p class="speed-tag">Пинг интерфейса: <span id="ping-counter">0.1 ms</span></p>
         </div>
-    </</footer>
+    </footer>
 
+    <!-- Подключаем JavaScript-логику -->
+    <script src="script.js"></script>
 </body>
 </html>
