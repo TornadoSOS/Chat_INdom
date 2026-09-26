@@ -1,168 +1,165 @@
-/* ОБНУЛЕНИЕ И ШРИФТЫ */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
-/* ЗАДНИЙ ФОН ВСЕГО САЙТА */
 body {
-    background-color: #0b0f19; /* Глубокий космический темно-синий */
-    color: #e2e8f0; /* Мягкий белый, чтобы глаза не уставали */
+    background-color: #05070f; /* Ультра-темный фон */
+    color: #f1f5f9;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    line-height: 1.6;
+    overflow-x: hidden;
 }
 
-/* ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ РАВНЕНИЯ ПО ЦЕНТРУ */
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
     padding: 0 20px;
 }
 
-/* ШАПКА САЙТА (ХАЙЫРАКАН) */
+/* ШАПКА */
 .main-header {
-    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); /* Красивый градиент */
-    padding: 40px 0;
+    background: radial-gradient(circle at top, #1e1b4b 0%, #05070f 80%);
+    padding: 50px 0 30px 0;
     text-align: center;
-    border-bottom: 2px solid #3b82f6; /* Неоновая синяя полоса */
-    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
 }
 
 .school-badge {
-    background-color: #3b82f6;
-    color: #ffffff;
-    font-size: 0.8rem;
-    font-weight: bold;
-    padding: 4px 12px;
-    border-radius: 20px;
-    letter-spacing: 1px;
+    background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 6px 16px;
+    border-radius: 30px;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
     display: inline-block;
-    margin-bottom: 10px;
-    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+    margin-bottom: 15px;
 }
 
-.main-header h1 {
-    font-size: 2.8rem;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -0.5px;
-    text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+h1 {
+    font-size: 3.5rem;
+    font-weight: 900;
+    background: linear-gradient(to right, #ffffff, #94a3b8);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    letter-spacing: -1px;
 }
 
 .subtitle {
-    color: #94a3b8;
+    color: #64748b;
     font-size: 1.1rem;
     margin-top: 5px;
+    margin-bottom: 30px;
 }
 
-/* СЕТКА С КАРТОЧКАМИ ДНЕЙ (Адаптивная) */
-main {
-    flex: 1;
-    padding-top: 40px;
-    padding-bottom: 40px;
+/* ПЕРЕКЛЮЧАТЕЛЬ ДНЕЙ */
+.day-selector {
+    display: inline-flex;
+    background-color: #0f172a;
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid #1e293b;
 }
 
-.schedule-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Авто-подгон колонок */
-    gap: 25px;
+.day-btn {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.25s ease;
 }
 
-/* КАРТОЧКА ДНЯ */
-.day-card {
-    background-color: #111827; /* Темный графит */
-    border: 1px solid #1f2937;
+.day-btn:hover {
+    color: white;
+}
+
+.day-btn.active {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+/* КАРТОЧКИ УРОКОВ И АНИМАЦИЯ ВХОДА */
+.schedule-wrapper {
+    margin-top: 20px;
+}
+
+.lesson-card {
+    background: linear-gradient(145deg, #0f172a 0%, #0b0f19 100%);
+    border: 1px solid #1e293b;
     border-radius: 16px;
-    padding: 24px;
-    transition: all 0.3s ease; /* Плавный эффект при наведении */
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-/* Эффект свечения при наведении */
-.day-card:hover {
-    transform: translateY(-5px);
-    border-color: #10b981; /* Меняется на изумрудно-зеленый */
-    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
-}
-
-.day-title {
-    font-size: 1.4rem;
-    color: #ffffff;
-    margin-bottom: 20px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #374151;
-    font-weight: 700;
-}
-
-/* СПИСОК УРОКОВ */
-.lesson-list {
-    list-style: none;
-}
-
-.lesson-list li {
+    padding: 18px 24px;
+    margin-bottom: 14px;
     display: flex;
     align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px dashed #1f2937;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    
+    /* Эффект плавной анимации входа */
+    animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.lesson-list li:last-child {
-    border-bottom: none;
+/* Наведение на карточку */
+.lesson-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 25px rgba(59, 130, 246, 0.15);
+    transform: scale(1.01);
+    transition: all 0.2s ease;
 }
 
-/* НОМЕР УРОКА */
 .lesson-num {
-    background-color: #1f2937;
-    color: #10b981; /* Неоновый зеленый */
-    font-weight: bold;
-    width: 28px;
-    height: 28px;
-    border-radius: 8px;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-right: 15px;
-    font-size: 0.9rem;
-    border: 1px solid #374151;
+    margin-right: 20px;
 }
 
-/* НАЗВАНИЕ ПРЕДМЕТА */
 .lesson-name {
-    font-size: 1.05rem;
-    color: #e2e8f0;
-    font-weight: 500;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #f8fafc;
 }
 
-/* ПОДВАЛ (ФУТЕР САЙТА) */
+/* ФУТЕР */
 .main-footer {
-    background-color: #090d16;
-    padding: 25px 0;
+    margin-top: auto;
+    padding: 30px 0;
     text-align: center;
-    border-top: 1px solid #1f2937;
-    font-size: 0.9rem;
-    color: #64748b;
-}
-
-.main-footer strong {
-    color: #3b82f6; /* Выделяем C++ синим цветом */
-}
-
-.performance-tag {
-    margin-top: 8px;
-    font-family: monospace; /* Шрифт как в коде */
+    border-top: 1px solid #0f172a;
     font-size: 0.85rem;
+    color: #475569;
 }
 
-#ping {
-    color: #10b981; /* Зеленый пинг */
-    font-weight: bold;
-    background-color: rgba(16, 185, 129, 0.1);
-    padding: 2px 6px;
-    border-radius: 4px;
+.tech-stack { color: #8b5cf6; font-weight: 600; }
+#ping-counter { color: #10b981; font-weight: bold; }
+
+/* КЛЮЧЕВЫЕ КАДРЫ ДЛЯ АНИМАЦИЙ */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-drop {
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
