@@ -1,0 +1,168 @@
+/* ОБНУЛЕНИЕ И ШРИФТЫ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* ЗАДНИЙ ФОН ВСЕГО САЙТА */
+body {
+    background-color: #0b0f19; /* Глубокий космический темно-синий */
+    color: #e2e8f0; /* Мягкий белый, чтобы глаза не уставали */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    line-height: 1.6;
+}
+
+/* ГЛАВНЫЙ КОНТЕЙНЕР ДЛЯ РАВНЕНИЯ ПО ЦЕНТРУ */
+.container {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* ШАПКА САЙТА (ХАЙЫРАКАН) */
+.main-header {
+    background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%); /* Красивый градиент */
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 2px solid #3b82f6; /* Неоновая синяя полоса */
+    box-shadow: 0 4px 20px rgba(59, 130, 246, 0.15);
+}
+
+.school-badge {
+    background-color: #3b82f6;
+    color: #ffffff;
+    font-size: 0.8rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-radius: 20px;
+    letter-spacing: 1px;
+    display: inline-block;
+    margin-bottom: 10px;
+    box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+
+.main-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+    text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+.subtitle {
+    color: #94a3b8;
+    font-size: 1.1rem;
+    margin-top: 5px;
+}
+
+/* СЕТКА С КАРТОЧКАМИ ДНЕЙ (Адаптивная) */
+main {
+    flex: 1;
+    padding-top: 40px;
+    padding-bottom: 40px;
+}
+
+.schedule-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* Авто-подгон колонок */
+    gap: 25px;
+}
+
+/* КАРТОЧКА ДНЯ */
+.day-card {
+    background-color: #111827; /* Темный графит */
+    border: 1px solid #1f2937;
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease; /* Плавный эффект при наведении */
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Эффект свечения при наведении */
+.day-card:hover {
+    transform: translateY(-5px);
+    border-color: #10b981; /* Меняется на изумрудно-зеленый */
+    box-shadow: 0 10px 25px rgba(16, 185, 129, 0.15);
+}
+
+.day-title {
+    font-size: 1.4rem;
+    color: #ffffff;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #374151;
+    font-weight: 700;
+}
+
+/* СПИСОК УРОКОВ */
+.lesson-list {
+    list-style: none;
+}
+
+.lesson-list li {
+    display: flex;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px dashed #1f2937;
+}
+
+.lesson-list li:last-child {
+    border-bottom: none;
+}
+
+/* НОМЕР УРОКА */
+.lesson-num {
+    background-color: #1f2937;
+    color: #10b981; /* Неоновый зеленый */
+    font-weight: bold;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+    font-size: 0.9rem;
+    border: 1px solid #374151;
+}
+
+/* НАЗВАНИЕ ПРЕДМЕТА */
+.lesson-name {
+    font-size: 1.05rem;
+    color: #e2e8f0;
+    font-weight: 500;
+}
+
+/* ПОДВАЛ (ФУТЕР САЙТА) */
+.main-footer {
+    background-color: #090d16;
+    padding: 25px 0;
+    text-align: center;
+    border-top: 1px solid #1f2937;
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.main-footer strong {
+    color: #3b82f6; /* Выделяем C++ синим цветом */
+}
+
+.performance-tag {
+    margin-top: 8px;
+    font-family: monospace; /* Шрифт как в коде */
+    font-size: 0.85rem;
+}
+
+#ping {
+    color: #10b981; /* Зеленый пинг */
+    font-weight: bold;
+    background-color: rgba(16, 185, 129, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
